@@ -1,0 +1,77 @@
+.users-table-root {
+    border: none !important;
+    box-shadow: 0 4px 32px rgba(34, 39, 53, 0.12) !important;
+    background: #fff !important;
+    border-radius: 16px !important;
+    font-size: 16px !important;
+    padding: 0 12px 12px 12px !important;
+    min-width: 1000px;
+    /* for responsive overflow on mobile */
+    overflow-x: auto;
+}
+
+.users-table-header {
+    background: #f7faff !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    color: #24324d !important;
+    border-radius: 10px 10px 0 0 !important;
+    height: 58px !important;
+    letter-spacing: 0.03em;
+}
+
+.users-table-cell {
+    color: #29304d !important;
+    font-size: 17px !important;
+    vertical-align: middle !important;
+    display: flex;
+    align-items: center;
+    height: 56px !important;
+    /* Prevents buttons from being too close to top */
+}
+
+.users-table-row {
+    min-height: 60px !important;
+    background: #fff !important;
+}
+
+.users-table-row:hover {
+    background: #f0f5fb !important;
+}
+
+.table-edit-btn, .table-delete-btn {
+    border-radius: 20px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    min-width: 75px !important;
+    min-height: 36px !important;
+    margin: 0 7px 0 0 !important;
+    transition: background 0.18s, color 0.18s;
+    box-shadow: 0 1px 4px rgba(34, 39, 53, 0.03);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.table-edit-btn {
+    color: #1976d2 !important;
+    border: 1.5px solid #1976d2 !important;
+    background: #eef6fb !important;
+}
+.table-edit-btn:hover {
+    background: #1976d2 !important;
+    color: #fff !important;
+}
+
+.table-delete-btn {
+    color: #e74c3c !important;
+    border: 1.5px solid #e74c3c !important;
+    background: #fff4f2 !important;
+    margin-right: 0 !important;
+}
+.table-delete-btn:hover {
+    background: #e74c3c !important;
+    color: #fff !important;
+    border: 1.5px solid #e74c3c !important;
+}

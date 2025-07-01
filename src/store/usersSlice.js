@@ -7,7 +7,6 @@ const initialState = {
     error: null,
 };
 
-// --- Async Thunks ---
 
 // Fetch all users (only if not loaded)
 export const fetchUsers = createAsyncThunk(

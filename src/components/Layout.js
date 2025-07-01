@@ -1,15 +1,14 @@
 import React from 'react';
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import NavBar from './Navbar';
 
 export default function Layout() {
     return (
-        <div style={{ width: '80%', margin: '40px auto' }}>
-            <nav style={{ marginBottom: 20 }}>
-                <Link to="/" style={{ marginRight: 20, fontWeight: 'bold', fontSize: '1.2em' }}>
-                    Users List
-                </Link>
-            </nav>
-            <Outlet />
+        <div>
+            <NavBar />
+            <div style={{ width: '90%', maxWidth: 1100, margin: '40px auto' }}>
+                <Outlet />
+            </div>
         </div>
     );
 }

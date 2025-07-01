@@ -1,0 +1,78 @@
+/* --- Professional, Tall, and Wide Navbar Styles --- */
+
+.navbar-appbar {
+    background: #1a2332 !important;
+    color: #fff !important;
+    box-shadow: 0 2px 16px rgba(28,40,55,0.18) !important;
+    min-height: 88px !important;         /* Taller navbar */
+    justify-content: center;
+    font-family: 'Inter', 'Roboto', 'Segoe UI', Arial, sans-serif !important;
+}
+
+.navbar-toolbar {
+    min-height: 88px !important;         /* Taller navbar */
+    padding-left: 4rem !important;       /* Wider navbar */
+    padding-right: 4rem !important;
+    font-family: 'Inter', 'Roboto', 'Segoe UI', Arial, sans-serif !important;
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: 1400px) {
+    .navbar-toolbar {
+        padding-left: 8vw !important;
+        padding-right: 8vw !important;
+    }
+}
+
+.navbar-title {
+    font-weight: 900 !important;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-size: 28px !important;
+    flex-grow: 1;
+    user-select: none;
+    font-family: 'Inter', 'Roboto', 'Segoe UI', Arial, sans-serif !important;
+}
+
+.navbar-icon {
+    margin-right: 28px !important;
+    background: #232f45 !important;
+    border-radius: 16px !important;
+    padding: 13px !important;
+    color: #fff !important;
+}
+
+.navbar-icon:hover {
+    background: #32405b !important;
+}
+
+.navbar-btn {
+    font-weight: 800 !important;
+    font-size: 17px !important;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+    border-radius: 24px !important;
+    transition: background 0.18s, color 0.18s;
+    color: #fff !important;
+    background: transparent !important;
+    height: 48px !important;
+    letter-spacing: 1.5px;
+    font-family: 'Inter', 'Roboto', 'Segoe UI', Arial, sans-serif !important;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-btn.active,
+.navbar-btn:focus-visible {
+    color: #1976d2 !important;
+    background: #e3e9f0 !important;
+    box-shadow: 0 2px 8px rgba(34,116,165,0.08);
+}
+
+.navbar-btn:hover {
+    background: #e3e9f0 !important;
+    color: #1976d2 !important;
+}
