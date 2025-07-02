@@ -70,30 +70,31 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 
-public Map<String, List<Object>> groupByColumnFromGrouper(
-ExcelSheetJsonTopicGrouper grouper,
-String groupByColumn,
-String valueColumn
+public Map<String, List<Map<String, Object>>> groupAllColumnsByOne(
+Map<String, List<Object>> flatJson,
+String groupByColumn
 ) {
-Map<String, List<Object>> flatJson = grouper.getJsonValues();
-
-    Map<String, List<Object>> grouped = new LinkedHashMap<>();
+Map<String, List<Map<String, Object>>> grouped = new LinkedHashMap<>();
 
     List<Object> groupKeys = flatJson.get(groupByColumn);
-    List<Object> values = flatJson.get(valueColumn);
+    if (groupKeys == null) return grouped;
 
-    if (groupKeys == null || values == null) {
-        return grouped;
-    }
+    int rowCount = groupKeys.size();
 
-    for (int i = 0; i < groupKeys.size(); i++) {
+    for (int i = 0; i < rowCount; i++) {
         String groupKey = String.valueOf(groupKeys.get(i));
-        Object value = values.get(i);
 
-        grouped.computeIfAbsent(groupKey, k -> new ArrayList<>()).add(value);
+        Map<String, Object> rowData = new LinkedHashMap<>();
+        for (Map.Entry<String, List<Object>> entry : flatJson.entrySet()) {
+            String column = entry.getKey();
+            List<Object> values = entry.getValue();
+            if (i < values.size() && !column.equals(groupByColumn)) {
+                rowData.put(column, values.get(i));
+            }
+        }
+
+        grouped.computeIfAbsent(groupKey, k -> new ArrayList<>()).add(rowData);
     }
 
     return grouped;
 }
-ExcelSheetJsonTopicGrouper grouper = getExcelJsonGrouper(sheetName, headers, json);
-Map<String, List<Object>> grouped = groupByColumnFromGrouper(grouper, "Letter", "Value");
