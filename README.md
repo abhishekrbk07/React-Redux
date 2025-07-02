@@ -68,3 +68,32 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+public Map<String, List<Object>> groupByColumnFromGrouper(
+ExcelSheetJsonTopicGrouper grouper,
+String groupByColumn,
+String valueColumn
+) {
+Map<String, List<Object>> flatJson = grouper.getJsonValues();
+
+    Map<String, List<Object>> grouped = new LinkedHashMap<>();
+
+    List<Object> groupKeys = flatJson.get(groupByColumn);
+    List<Object> values = flatJson.get(valueColumn);
+
+    if (groupKeys == null || values == null) {
+        return grouped;
+    }
+
+    for (int i = 0; i < groupKeys.size(); i++) {
+        String groupKey = String.valueOf(groupKeys.get(i));
+        Object value = values.get(i);
+
+        grouped.computeIfAbsent(groupKey, k -> new ArrayList<>()).add(value);
+    }
+
+    return grouped;
+}
+ExcelSheetJsonTopicGrouper grouper = getExcelJsonGrouper(sheetName, headers, json);
+Map<String, List<Object>> grouped = groupByColumnFromGrouper(grouper, "Letter", "Value");
