@@ -70,31 +70,45 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 
-public Map<String, List<Map<String, Object>>> groupAllColumnsByOne(
-Map<String, List<Object>> flatJson,
+public Map<String, List<Object>> groupMultipleColumnsByOneColumn(
+ExcelSheetJsonTopicGrouper grouper,
 String groupByColumn
 ) {
-Map<String, List<Map<String, Object>>> grouped = new LinkedHashMap<>();
+// Step 1: Get all columns' data
+Map<String, List<Object>> originalData = grouper.getJsonValues();
+List<Object> groupKeys = originalData.get(groupByColumn);
 
-    List<Object> groupKeys = flatJson.get(groupByColumn);
-    if (groupKeys == null) return grouped;
-
-    int rowCount = groupKeys.size();
-
-    for (int i = 0; i < rowCount; i++) {
-        String groupKey = String.valueOf(groupKeys.get(i));
-
-        Map<String, Object> rowData = new LinkedHashMap<>();
-        for (Map.Entry<String, List<Object>> entry : flatJson.entrySet()) {
-            String column = entry.getKey();
-            List<Object> values = entry.getValue();
-            if (i < values.size() && !column.equals(groupByColumn)) {
-                rowData.put(column, values.get(i));
-            }
-        }
-
-        grouped.computeIfAbsent(groupKey, k -> new ArrayList<>()).add(rowData);
+    if (groupKeys == null || groupKeys.isEmpty()) {
+        return Collections.emptyMap();
     }
 
-    return grouped;
+    // Step 2: Build grouped index map (e.g., {1: [0, 1], 2: [2]})
+    Map<Object, List<Integer>> groupedIndexes = new LinkedHashMap<>();
+    for (int i = 0, len = groupKeys.size(); i < len; i++) {
+        groupedIndexes.computeIfAbsent(groupKeys.get(i), k -> new ArrayList<>()).add(i);
+    }
+
+    // Step 3: Prepare final result
+    Map<String, List<Object>> finalGrouped = new LinkedHashMap<>();
+    finalGrouped.put(groupByColumn, new ArrayList<>(groupedIndexes.keySet()));
+
+    for (Map.Entry<String, List<Object>> entry : originalData.entrySet()) {
+        String column = entry.getKey();
+        if (column.equals(groupByColumn)) continue;
+
+        List<Object> columnValues = entry.getValue();
+        List<Object> groupedLists = new ArrayList<>(groupedIndexes.size());
+
+        for (List<Integer> indices : groupedIndexes.values()) {
+            List<Object> group = new ArrayList<>(indices.size());
+            for (int index : indices) {
+                group.add(columnValues.get(index));
+            }
+            groupedLists.add(group);
+        }
+
+        finalGrouped.put(column, groupedLists);
+    }
+
+    return finalGrouped;
 }
