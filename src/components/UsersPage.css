@@ -1,77 +1,102 @@
+body, html, #root, .MuiDataGrid-root, .MuiDataGrid-cell, .MuiDataGrid-columnHeader {
+    font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+    color: #23283b !important;
+}
+
 .users-table-root {
     border: none !important;
-    box-shadow: 0 4px 32px rgba(34, 39, 53, 0.12) !important;
+    box-shadow: 0 4px 32px rgba(34, 39, 53, 0.13) !important;
     background: #fff !important;
-    border-radius: 16px !important;
+    border-radius: 20px !important;
     font-size: 16px !important;
-    padding: 0 12px 12px 12px !important;
+    padding: 0 14px 16px 14px !important;
     min-width: 1000px;
-    /* for responsive overflow on mobile */
     overflow-x: auto;
 }
 
-.users-table-header {
-    background: #f7faff !important;
-    font-weight: 700 !important;
+.users-table-header,
+.MuiDataGrid-columnHeader {
+    background: #f4f7fb !important;
+    font-weight: 800 !important;
     font-size: 18px !important;
-    color: #24324d !important;
+    color: #18233a !important;
     border-radius: 10px 10px 0 0 !important;
-    height: 58px !important;
-    letter-spacing: 0.03em;
+    height: 60px !important;
+    letter-spacing: 0.04em;
 }
 
-.users-table-cell {
-    color: #29304d !important;
-    font-size: 17px !important;
+.users-table-cell,
+.MuiDataGrid-cell {
+    color: #23283b !important;
+    font-size: 16.5px !important;
     vertical-align: middle !important;
+    font-weight: 500 !important;
+    font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+}
+
+.users-table-row, .MuiDataGrid-row {
+    min-height: 56px !important;
+    background: #fff !important;
+    font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+}
+
+.users-table-row:hover,
+.MuiDataGrid-row:hover {
+    background: #f2f7fd !important;
+}
+
+/* Icon-only action buttons */
+.icon-action-btn {
+    background: transparent;
+    border: none;
+    outline: none;
+    border-radius: 50%;
+    margin: 0 6px 0 0;
+    padding: 7px;
     display: flex;
     align-items: center;
-    height: 56px !important;
-    /* Prevents buttons from being too close to top */
-}
-
-.users-table-row {
-    min-height: 60px !important;
-    background: #fff !important;
-}
-
-.users-table-row:hover {
-    background: #f0f5fb !important;
-}
-
-.table-edit-btn, .table-delete-btn {
-    border-radius: 20px !important;
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    text-transform: none !important;
-    min-width: 75px !important;
-    min-height: 36px !important;
-    margin: 0 7px 0 0 !important;
-    transition: background 0.18s, color 0.18s;
-    box-shadow: 0 1px 4px rgba(34, 39, 53, 0.03);
-    display: inline-flex;
-    align-items: center;
     justify-content: center;
+    cursor: pointer;
+    transition: background 0.16s;
+    box-shadow: 0 1px 6px rgba(34,39,53,0.02);
 }
 
-.table-edit-btn {
-    color: #1976d2 !important;
-    border: 1.5px solid #1976d2 !important;
-    background: #eef6fb !important;
-}
-.table-edit-btn:hover {
-    background: #1976d2 !important;
-    color: #fff !important;
+.icon-action-btn svg {
+    font-size: 1.5rem;
+    color: #23283b;
+    transition: color 0.16s;
 }
 
-.table-delete-btn {
-    color: #e74c3c !important;
-    border: 1.5px solid #e74c3c !important;
-    background: #fff4f2 !important;
-    margin-right: 0 !important;
+.edit-icon-btn:hover,
+.edit-icon-btn:focus-visible {
+    background: #2563eb1a; /* subtle blue */
 }
-.table-delete-btn:hover {
-    background: #e74c3c !important;
-    color: #fff !important;
-    border: 1.5px solid #e74c3c !important;
+.edit-icon-btn:hover svg,
+.edit-icon-btn:focus-visible svg {
+    color: #2563eb;
+}
+
+.delete-icon-btn:hover,
+.delete-icon-btn:focus-visible {
+    background: #ff446633; /* subtle red */
+}
+.delete-icon-btn:hover svg,
+.delete-icon-btn:focus-visible svg {
+    color: #e11d48;
+}
+
+.MuiTablePagination-root,
+.MuiDataGrid-footerContainer {
+    font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+    font-weight: 600 !important;
+    background: #f7f9fc !important;
+    color: #445470 !important;
+    border-radius: 0 0 20px 20px !important;
+}
+
+/* Responsive Font for Small Screens */
+@media (max-width: 600px) {
+    .users-table-root, .MuiDataGrid-root { font-size: 14px !important; }
+    .users-table-header, .MuiDataGrid-columnHeader { font-size: 15px !important; }
+    .users-table-cell, .MuiDataGrid-cell { font-size: 14px !important; }
 }

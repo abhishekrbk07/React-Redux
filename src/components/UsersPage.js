@@ -11,7 +11,7 @@ import {
     Stack,
     Paper,
     Box,
-    Typography
+    Tooltip
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -26,6 +26,10 @@ import {
     selectUsersError,
 } from '../store/usersSlice';
 import { showNotification } from '../store/NotificationSlice';
+
+// ICONS
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 export default function UsersPage() {
     // Redux and routing
@@ -98,7 +102,7 @@ export default function UsersPage() {
     // Table row click handler (navigates to user detail)
     const handleRowClick = params => navigate(`/user/${params.id}`);
 
-    // DataGrid columns configuration with improved button look
+    // DataGrid columns configuration with icons for Edit/Delete
     const columns = [
         { field: 'id', headerName: 'ID', width: 70, headerClassName: 'users-table-header', cellClassName: 'users-table-cell' },
         { field: 'name', headerName: 'Name', width: 180, headerClassName: 'users-table-header', cellClassName: 'users-table-cell' },
@@ -108,34 +112,33 @@ export default function UsersPage() {
         {
             field: 'actions',
             headerName: 'Actions',
-            width: 240,
+            width: 100,
             sortable: false,
             headerClassName: 'users-table-header',
             renderCell: (params) => (
                 <Stack direction="row" spacing={1}>
-                    <Button
-                        variant="outlined"
-                        size="medium"
-                        className="table-edit-btn"
-                        onClick={e => {
-                            e.stopPropagation();
-                            openEditDialog(params.row);
-                        }}
-                    >
-                        Edit
-                    </Button>
-                    <Button
-                        color="error"
-                        variant="outlined"
-                        size="medium"
-                        className="table-delete-btn"
-                        onClick={e => {
-                            e.stopPropagation();
-                            handleDelete(params.row.id);
-                        }}
-                    >
-                        Delete
-                    </Button>
+                    <Tooltip title="Edit" arrow>
+                        <button
+                            className="icon-action-btn edit-icon-btn"
+                            onClick={e => {
+                                e.stopPropagation();
+                                openEditDialog(params.row);
+                            }}
+                        >
+                            <EditOutlinedIcon fontSize="medium" />
+                        </button>
+                    </Tooltip>
+                    <Tooltip title="Delete" arrow>
+                        <button
+                            className="icon-action-btn delete-icon-btn"
+                            onClick={e => {
+                                e.stopPropagation();
+                                handleDelete(params.row.id);
+                            }}
+                        >
+                            <DeleteOutlineOutlinedIcon fontSize="medium" />
+                        </button>
+                    </Tooltip>
                 </Stack>
             )
         }
@@ -160,10 +163,6 @@ export default function UsersPage() {
                     background: "#fff"
                 }}
             >
-                {/* Title */}
-                <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, color: "#1a2332" }}>
-                    Users Management
-                </Typography>
                 {/* Action buttons */}
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 3 }}>
                     <Button variant="contained" onClick={openAddDialog} sx={{ fontWeight: 600, px: 3 }}>
