@@ -2,7 +2,6 @@ body, html, #root, .MuiDataGrid-root, .MuiDataGrid-cell, .MuiDataGrid-columnHead
     font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
     color: #23283b !important;
 }
-
 .users-table-root {
     border: none !important;
     box-shadow: 0 4px 32px rgba(34, 39, 53, 0.13) !important;

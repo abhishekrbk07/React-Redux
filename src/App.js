@@ -6,6 +6,7 @@ import UserProfilePage from './components/UserProfilePage';
 import Dashboard from './components/Dashboard';
 import GlobalLoader from './components/GlobalLoader';
 import Notifications from './components/Notification';
+import PostsPage from './components/Post';
 
 export default function App() {
     return (
@@ -17,6 +18,7 @@ export default function App() {
                     <Route index element={<UsersPage />} />
                     <Route path="user/:id" element={<UserProfilePage />} />
                     <Route path="dashboard" element={<Dashboard />} />
+                    <Route path="/posts" element={<PostsPage />} />
                 </Route>
             </Routes>
         </Router>
