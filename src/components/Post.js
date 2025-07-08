@@ -1,14 +1,13 @@
+// PostsPage.js
 import React, { useEffect, useState } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import { Button, Paper, Box, Stack, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-    fetchPostsPage, removeOldPages, selectPostsByPage
-} from '../store/postsSlice';
+import { fetchPostsPage, selectPostsByPage } from '../store/postsSlice';
+import { DataGrid } from '@mui/x-data-grid';
+import { Button, Paper, Box, Stack, Typography, CircularProgress } from '@mui/material';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 import './Post.css';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 10;
 
 export default function PostsPage() {
     const [page, setPage] = useState(1);
@@ -17,10 +16,10 @@ export default function PostsPage() {
     const status = useSelector(state => state.posts.status);
 
     useEffect(() => {
-        dispatch(fetchPostsPage({ page, pageSize: PAGE_SIZE }));
-        // Keep only the last 3 pages in memory for efficiency
-        dispatch(removeOldPages([page - 1, page, page + 1].filter(p => p > 0)));
-    }, [dispatch, page]);
+        if (!posts) {
+            dispatch(fetchPostsPage({ page, pageSize: PAGE_SIZE }));
+        }
+    }, [dispatch, page, posts]);
 
     const columns = [
         { field: 'id', headerName: 'ID', width: 85, headerClassName: 'posts-table-header', cellClassName: 'posts-table-cell' },
@@ -56,20 +55,28 @@ export default function PostsPage() {
                     </Button>
                 </Stack>
                 <Box className="posts-table-wrapper">
-                    {status === 'loading' && <p>Loading...</p>}
-                    {status === 'failed' && <p style={{ color: 'red' }}>Error fetching posts</p>}
-                    <DataGrid
-                        rows={posts}
-                        columns={columns}
-                        pageSize={PAGE_SIZE}
-                        rowsPerPageOptions={[PAGE_SIZE]}
-                        getRowId={row => row.id}
-                        className="posts-table-root"
-                        getRowClassName={() => "posts-table-row"}
-                        autoHeight
-                        disableSelectionOnClick
-                        density="comfortable"
-                    />
+                    {(!posts || status === 'loading') && (
+                        <Box sx={{ py: 8, textAlign: 'center' }}>
+                            <CircularProgress size={36} />
+                            <Typography sx={{ mt: 2, color: "#1976d2", fontWeight: 600 }}>
+                                Loading posts...
+                            </Typography>
+                        </Box>
+                    )}
+                    {posts && (
+                        <DataGrid
+                            rows={posts}
+                            columns={columns}
+                            pageSize={PAGE_SIZE}
+                            rowsPerPageOptions={[PAGE_SIZE]}
+                            getRowId={row => row.id}
+                            className="posts-table-root"
+                            getRowClassName={() => "posts-table-row"}
+                            autoHeight
+                            disableSelectionOnClick
+                            density="comfortable"
+                        />
+                    )}
                 </Box>
             </Paper>
         </Box>
