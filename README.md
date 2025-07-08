@@ -70,3 +70,77 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 
+
+
+
+/**
+ * Groups rows from a list of maps by multiple column values.
+ *
+ * Example:
+ * Input Rows:
+ *   [{"A": 1, "B": 3, "C": "X"}, {"A": 1, "B": 3, "C": "Y"}, {"A": 2, "B": 5, "C": "Z"}]
+ * Group By Columns:
+ *   ["A", "B"]
+ * Output:
+ *   [{"A": 1, "B": 3, "C": ["X", "Y"]}, {"A": 2, "B": 5, "C": ["Z"]}]
+ */
+
+
+    private List<Map<String, Object>> groupRecordsByMultipleColumns(
+        ExcelSheetJsonRecordGrouper grouper,
+        List<String> groupByColumns
+     ) {
+    // Get all rows, where each row is a map of column name to value
+    List<Map<String, Object>> rows = grouper.getJsonValues();
+    if (rows == null || rows.isEmpty()) return Collections.emptyList();
+
+    // Use LinkedHashMap to preserve insertion order of groups
+    Map<List<Object>, Map<String, Object>> grouped = new LinkedHashMap<>();
+
+    // Loop through each row to group by the specified columns
+    for (Map<String, Object> row : rows) {
+
+        // 🔑 Step 1: Create a composite key (List<Object>) from groupBy column values
+        List<Object> groupKey = new ArrayList<>();
+        for (String col : groupByColumns) {
+            groupKey.add(row.getOrDefault(col, "")); // handle missing values as empty
+        }
+
+        // 🔁 Step 2: Get the group for the key, or create it if not exists
+        Map<String, Object> group = grouped.computeIfAbsent(groupKey, k -> {
+            Map<String, Object> newGroup = new LinkedHashMap<>();
+
+            // Add groupBy columns as individual values (not list)
+            for (int i = 0; i < groupByColumns.size(); i++) {
+                newGroup.put(groupByColumns.get(i), groupKey.get(i));
+            }
+
+            // Initialize all non-grouped columns as empty lists
+            for (String col : row.keySet()) {
+                if (!groupByColumns.contains(col)) {
+                    newGroup.put(col, new ArrayList<>()); // will collect grouped values
+                }
+            }
+
+            return newGroup;
+        });
+
+        // ➕ Step 3: Add values to the non-grouped columns
+        for (Map.Entry<String, Object> entry : row.entrySet()) {
+            String col = entry.getKey();
+
+            // Only add to non-grouped columns (groupBy columns are already stored flat)
+            if (!groupByColumns.contains(col)) {
+                @SuppressWarnings("unchecked")
+                List<Object> list = (List<Object>) group.get(col);
+                list.add(entry.getValue());
+            }
+        }
+    }
+
+    // Convert the grouped map values into a list of grouped result maps
+    return new ArrayList<>(grouped.values());
+}
+
+
+
