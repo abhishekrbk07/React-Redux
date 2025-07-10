@@ -30,6 +30,8 @@ import { showNotification } from '../store/NotificationSlice';
 // ICONS
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import {fetchDashboardNames } from '../store/dashboardSlice';
+
 
 export default function UsersPage() {
     // Redux and routing
@@ -41,7 +43,6 @@ export default function UsersPage() {
     const status = useSelector(selectUsersStatus);
     const error = useSelector(selectUsersError);
 
-    // Dialog state for Add/Edit user
     const [open, setOpen] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({
@@ -53,10 +54,11 @@ export default function UsersPage() {
         dispatch(fetchUsers());
     }, [dispatch]);
 
-    // Manual refresh handler (always refetch)
-    const handleRefresh = () => dispatch(forceFetchUsers());
+    useEffect(() => {
+        dispatch(fetchDashboardNames());
+    }, [dispatch]);
 
-    // Open Add dialog
+    const handleRefresh = () => dispatch(forceFetchUsers());
     const openAddDialog = () => {
         setFormData({ id: '', name: '', email: '', phone: '', website: '' });
         setEditMode(false);

@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+.dashboard-bg {
+    background: #f6f8fb;
+    min-height: calc(100vh - 80px);
+    padding: 38px 0;
+    font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+}
+
+.dashboard-card {
+    max-width: 1160px;
+    margin: 0 auto;
+    border-radius: 22px;
+    padding: 36px 36px 26px 36px;
+    background: #fff;
+    box-shadow: 0 4px 32px rgba(34,39,53,0.12);
+    font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+}
+
+.dashboard-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.dashboard-icon {
+    font-size: 2.5rem !important;
+    color: #1976d2 !important;
+    background: #e8f1fc;
+    border-radius: 12px;
+    padding: 13px;
+    margin-right: 16px;
+}
+
+.dashboard-title {
+    font-weight: 900 !important;
+    color: #1a2332 !important;
+    letter-spacing: 1.5px;
+    font-size: 2rem !important;
+    font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+}
+
+.dashboard-name-card {
+    display: flex;
+    align-items: center;
+    background: #f4f8fd;
+    border-radius: 15px;
+    padding: 18px 18px;
+    min-height: 65px;
+    box-shadow: 0 1px 7px rgba(25,118,210,0.06);
+    font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+    transition: background 0.16s;
+}
+
+.dashboard-name-card:hover {
+    background: #e8f1fc;
+}
+
+/* Updated: Number Avatar style */
+.dashboard-avatar-num {
+    background: #1976d2 !important;
+    color: #fff !important;
+    font-weight: 900 !important;
+    font-size: 1.15rem !important;
+    margin-right: 18px;
+    width: 38px !important;
+    height: 38px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(25,118,210,0.09);
+    font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+}
+
+.dashboard-name {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #212529;
+    word-break: break-word;
+    font-family: 'Inter', 'Roboto', Arial, sans-serif !important;
+}
+
+@media (max-width: 700px) {
+    .dashboard-card { padding: 20px 8px 10px 8px; }
+    .dashboard-name-card { padding: 10px 7px; }
+    .dashboard-title { font-size: 1.35rem !important; }
+}
