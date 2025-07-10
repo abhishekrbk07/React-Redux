@@ -69,4 +69,48 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
+          @Transactional
+            public void saveAllMeasures(List<Map<String, Object>> measuresJsonList) {
+            for (Map<String, Object> measureJson : measuresJsonList) {
+            // 1. Create Measure record
+            ProfessionalQualityRefTableMeasure measure = new ProfessionalQualityRefTableMeasure();
+            measure.setName((String) measureJson.get("name"));
+            measure.setMeasureType((String) measureJson.get("measureType"));
+            measure.setWeight(toBigDecimal(measureJson.get("weight")));
+            measure.setMinimumThreshold(toBigDecimal(measureJson.get("minimumThreshold")));
+            measure.setThresholdCount(0);
+            measure.setOrder(0); // Optional, update as needed
 
+        // Save Measure first
+        measure.save(flush: true, failOnError: true);
+
+        // 2. Create and save each threshold
+        List<Map<String, Object>> thresholds = (List<Map<String, Object>>) measureJson.get("thresholds");
+        int thresholdIndex = 0;
+        for (Map<String, Object> thresholdJson : thresholds) {
+            ProfessionalQualityRefTableMeasureThreshold threshold = new ProfessionalQualityRefTableMeasureThreshold();
+            threshold.setPercentileRange((String) thresholdJson.get("percentileRange"));
+            threshold.setMinScore(toBigDecimal(thresholdJson.get("minScore")));
+            threshold.setMaxScore(toBigDecimal(thresholdJson.get("maxScore")));
+            threshold.setPointLevel((Integer) thresholdJson.get("pointLevel"));
+            threshold.setOrder(thresholdIndex++);
+            threshold.setMeasure(measure); // Associate with parent
+
+            threshold.save(flush: true, failOnError: true);
+        }
+
+        // 3. Update threshold count in parent
+        measure.setThresholdCount(thresholds.size());
+        measure.save(flush: true, failOnError: true);
+    }
+        }
+
+          // Helper function
+        private BigDecimal toBigDecimal(Object value) {
+        if (value == null) return null;
+        return new BigDecimal(value.toString());
+        }
+       
+
+         yourService.saveAllMeasures(groupedData)
+        
